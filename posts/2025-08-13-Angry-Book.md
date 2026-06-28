@@ -7,7 +7,7 @@ How much more journaling is it going to take for me to not be pissed off all the
 
 //
 
-We need to do better than this. Did you really just tell her that she can't have an exchange for something she waited two years for?? Why are we telling her she can't have her exchange?! Go neck and tell her you're sorry and send her the item she wants
+We need to do better than this. Did you really just tell her that she can't have an exchange for something she waited two years for?? Why are we telling her she can't have her exchange?! Go back and tell her you're sorry and send her what she wants. 
 
 //
 
