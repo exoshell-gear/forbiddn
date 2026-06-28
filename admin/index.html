@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>forbiddn — who are you?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Crimson+Text:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bone: #E8E0D0;
+      --bone-dim: #9E9488;
+      --bone-faint: #3A3530;
+      --ink: #0D0B09;
+      --ink-mid: #1A1713;
+      --red: #7A1F1F;
+    }
+
+    body {
+      background: var(--ink);
+      color: var(--bone);
+      font-family: 'Crimson Text', serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    body::before {
+      content: '';
+      display: block;
+      height: 2px;
+      background: var(--red);
+      width: 100%;
+      position: fixed;
+      top: 0; left: 0;
+      z-index: 100;
+    }
+
+    .box {
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .mask {
+      font-size: 2.4rem;
+      display: block;
+      margin-bottom: 28px;
+      opacity: 0.85;
+    }
+
+    .headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.1rem, 3vw, 1.4rem);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--bone);
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    .subheadline {
+      font-family: 'Crimson Text', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--bone-faint);
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .field {
+      width: 100%;
+      background: var(--ink-mid);
+      border: 1px solid var(--bone-faint);
+      color: var(--bone);
+      font-family: 'Crimson Text', serif;
+      font-size: 1rem;
+      padding: 14px 16px;
+      outline: none;
+      margin-bottom: 12px;
+      text-align: center;
+      letter-spacing: 0.08em;
+      transition: border-color 0.2s;
+    }
+
+    .field:focus { border-color: var(--bone-faint); }
+    .field::placeholder { color: var(--bone-faint); font-style: italic; }
+
+    .submit {
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--bone-faint);
+      color: var(--bone-faint);
+      font-family: 'Playfair Display', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 28px;
+    }
+
+    .submit:hover { border-color: var(--bone-dim); color: var(--bone-dim); }
+
+    .response {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--bone-dim);
+      min-height: 28px;
+      transition: opacity 0.3s;
+      line-height: 1.5;
+    }
+
+    .response.flash {
+      animation: flash 0.3s ease;
+    }
+
+    @keyframes flash {
+      0% { opacity: 0; transform: translateY(4px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 48px;
+      font-family: 'Crimson Text', serif;
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--bone-faint);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .back:hover { color: var(--bone-dim); }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <span class="mask">🎭</span>
+    <p class="headline">honestly? if you can get in you probably deserve it.</p>
+    <p class="subheadline">i won't even be mad.</p>
+
+    <input
+      class="field"
+      type="password"
+      id="passwordField"
+      placeholder="give it your best shot"
+      onkeydown="if(event.key==='Enter') attempt()"
+      autocomplete="off"
+    />
+    <button class="submit" onclick="attempt()">Enter</button>
+
+    <div class="response" id="response"></div>
+
+    <a class="back" href="/">← go back to reading</a>
+  </div>
+
+  <script>
+    const responses = [
+      "incorrect.",
+      "you really think you can guess my password?",
+      "try again. wait.. why do i want you to try again?",
+      "just give up.",
+      "i love watching you fail.",
+      "i could do this all day. but i won't.",
+      "what if there IS no password and i am just wasting your time?",
+      "do you have nothing better to do?",
+      "try 'password'.",
+      "try entering your deepest darkest secret.",
+      "you tryna break in?",
+      "Nobody ever saw my face... and lived. 😈",
+      "i am going to publish that along with your full name and ip address. 😈",
+      "jokes aside, you're really not supposed to be snooping around. please go read some more.",
+      "Just STOP.",
+      "Who do you hate the most?",
+      "incorrect password. fuck off.",
+      "Come on in! SYKE! Stay the fuck out. 😈",
+    ];
+
+    let lastIndex = -1;
+
+    function attempt() {
+      const field = document.getElementById('passwordField');
+      field.value = '';
+      field.blur();
+
+      // Pick a response, avoid repeating the last one
+      let idx;
+      do { idx = Math.floor(Math.random() * responses.length); }
+      while (idx === lastIndex && responses.length > 1);
+      lastIndex = idx;
+
+      const el = document.getElementById('response');
+      el.classList.remove('flash');
+      void el.offsetWidth; // reflow to restart animation
+      el.textContent = responses[idx];
+      el.classList.add('flash');
+
+      setTimeout(() => field.focus(), 100);
+    }
+
+    document.getElementById('passwordField').focus();
+  </script>
+</body>
+</html>
