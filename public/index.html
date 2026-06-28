@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>forbiddn</title>
+  <meta name="description" content="Secrets, confessions, and dark fantasies. You figure out which is which." />
+  <meta property="og:title" content="forbiddn" />
+  <meta property="og:description" content="Secrets, confessions, and dark fantasies. You figure out which is which." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Crimson+Text:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bone: #E8E0D0;
+      --bone-dim: #9E9488;
+      --bone-faint: #3A3530;
+      --ink: #0D0B09;
+      --ink-mid: #1A1713;
+      --red: #7A1F1F;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--ink);
+      color: var(--bone);
+      font-family: 'Crimson Text', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      display: block;
+      height: 2px;
+      background: var(--red);
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+    }
+
+    /* ── HEADER ── */
+    header {
+      padding: 80px 24px 60px;
+      text-align: center;
+      border-bottom: 1px solid var(--bone-faint);
+    }
+
+    .mask {
+      font-size: 2.4rem;
+      display: block;
+      margin-bottom: 24px;
+      opacity: 0.85;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      line-height: 1.15;
+      color: var(--bone);
+      margin-bottom: 16px;
+    }
+
+    .subtext {
+      font-family: 'Crimson Text', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: var(--bone-dim);
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+
+    .tagline {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--bone-faint);
+      margin-bottom: 40px;
+    }
+
+    /* Kit email form — replace with your embed */
+    .email-form {
+      display: flex;
+      gap: 0;
+      max-width: 400px;
+      margin: 0 auto 20px;
+      border: 1px solid var(--bone-faint);
+    }
+
+    .email-form input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--bone);
+      font-family: 'Crimson Text', serif;
+      font-size: 1rem;
+      padding: 12px 16px;
+      outline: none;
+      min-width: 0;
+    }
+
+    .email-form input::placeholder { color: var(--bone-faint); }
+
+    .email-form button {
+      background: var(--bone-faint);
+      border: none;
+      color: var(--bone-dim);
+      font-family: 'Playfair Display', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+
+    .email-form button:hover { background: var(--bone-dim); color: var(--ink); }
+
+    .admin-link {
+      display: inline-block;
+      font-family: 'Crimson Text', serif;
+      font-style: italic;
+      font-size: 0.82rem;
+      color: var(--bone-faint);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+      margin-top: 4px;
+    }
+
+    .admin-link:hover { color: var(--bone-dim); }
+
+    /* ── FEED ── */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 24px 100px;
+    }
+
+    .feed {
+      columns: 2;
+      column-gap: 32px;
+    }
+
+    @media (max-width: 700px) {
+      .feed { columns: 1; }
+    }
+
+    .entry {
+      break-inside: avoid;
+      margin-bottom: 32px;
+      border: 1px solid var(--bone-faint);
+      padding: 32px 28px 28px;
+      background: var(--ink-mid);
+      transition: border-color 0.2s;
+      cursor: pointer;
+    }
+
+    .entry:hover { border-color: var(--bone-dim); }
+
+    .entry-date {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--bone-faint);
+      margin-bottom: 14px;
+    }
+
+    .entry-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.15rem, 2.5vw, 1.45rem);
+      font-weight: 500;
+      line-height: 1.3;
+      color: var(--bone);
+      margin-bottom: 14px;
+    }
+
+    .entry-body {
+      font-family: 'Crimson Text', serif;
+      font-size: 1rem;
+      color: var(--bone-dim);
+      line-height: 1.75;
+      display: -webkit-box;
+      -webkit-line-clamp: 6;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .entry-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--bone-faint);
+    }
+
+    .read-more {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--bone-faint);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .read-more:hover { color: var(--bone-dim); }
+
+    .share-btn {
+      background: none;
+      border: none;
+      color: var(--bone-faint);
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-family: 'Crimson Text', serif;
+      font-style: italic;
+      transition: color 0.2s;
+      padding: 0;
+    }
+
+    .share-btn:hover { color: var(--bone-dim); }
+
+    /* ── SINGLE ENTRY ── */
+    .single-view {
+      display: none;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 60px 0 100px;
+    }
+
+    .single-view.active { display: block; }
+    .feed-view.hidden { display: none; }
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--bone-faint);
+      cursor: pointer;
+      font-family: 'Crimson Text', serif;
+      font-style: italic;
+      font-size: 1rem;
+      padding: 0;
+      margin-bottom: 48px;
+      transition: color 0.2s;
+    }
+
+    .back-btn:hover { color: var(--bone-dim); }
+
+    .single-date {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--bone-faint);
+      margin-bottom: 20px;
+    }
+
+    .single-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--bone);
+      margin-bottom: 40px;
+      font-style: italic;
+    }
+
+    .single-body {
+      font-family: 'Crimson Text', serif;
+      font-size: 1.15rem;
+      line-height: 1.85;
+      color: var(--bone-dim);
+    }
+
+    .single-body p { margin-bottom: 1.4em; }
+
+    .single-footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--bone-faint);
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    /* ── STATES ── */
+    .loading, .empty {
+      text-align: center;
+      padding: 80px 24px;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--bone-faint);
+      font-size: 1.1rem;
+      grid-column: 1 / -1;
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--bone-faint);
+      color: var(--bone-dim);
+      font-family: 'Crimson Text', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      padding: 10px 20px;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    footer {
+      text-align: center;
+      padding: 40px 24px;
+      border-top: 1px solid var(--bone-faint);
+      font-family: 'Crimson Text', serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--bone-faint);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <span class="mask">🎭</span>
+    <h1>forbiddn</h1>
+    <p class="subtext">Secrets, confessions, and dark fantasies.</p>
+    <p class="tagline">You figure out which is which.</p>
+
+    <!-- Replace with your Kit embed -->
+    <form class="email-form" onsubmit="handleEmail(event)">
+      <input type="email" placeholder="your@email.com" required />
+      <button type="submit">Follow</button>
+    </form>
+
+    <a class="admin-link" href="/admin">are you the author?</a>
+  </header>
+
+  <main>
+    <div class="feed-view" id="feedView">
+      <div class="feed" id="feed">
+        <div class="loading">Loading…</div>
+      </div>
+    </div>
+
+    <div class="single-view" id="singleView">
+      <button class="back-btn" onclick="showFeed()">← All entries</button>
+      <div class="single-date" id="singleDate"></div>
+      <h2 class="single-title" id="singleTitle"></h2>
+      <div class="single-body" id="singleBody"></div>
+      <div class="single-footer">
+        <button class="share-btn" onclick="shareEntry()">share this entry</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>The author remains unknown.</footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    let allEntries = [];
+    let currentSlug = null;
+
+    async function loadEntries() {
+      try {
+        const res = await fetch('/api/posts');
+        if (!res.ok) throw new Error();
+        const posts = await res.json();
+
+        allEntries = posts
+          .map(p => parseEntry(p.slug, p.content))
+          .sort((a, b) => b.date.localeCompare(a.date));
+
+        renderFeed(allEntries);
+      } catch {
+        document.getElementById('feed').innerHTML =
+          '<div class="empty">The diary is sealed shut.</div>';
+      }
+    }
+
+    function parseEntry(slug, text) {
+      const lines = text.split('\n');
+      let meta = {}, bodyStart = 0;
+      if (lines[0] === '---') {
+        for (let i = 1; i < lines.length; i++) {
+          if (lines[i] === '---') { bodyStart = i + 1; break; }
+          const [k, ...v] = lines[i].split(':');
+          meta[k.trim()] = v.join(':').trim().replace(/^"|"$/g, '');
+        }
+      }
+      const title = meta.title || slug.replace(/^\d{4}-\d{2}-\d{2}-/, '').replace(/-/g, ' ');
+      const date  = meta.date  || slug.slice(0, 10);
+      const body  = lines.slice(bodyStart).join('\n').trim();
+      return { slug, title, date, body };
+    }
+
+    function formatDate(d) {
+      return new Date(d + 'T12:00:00').toLocaleDateString('en-US', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      });
+    }
+
+    function renderFeed(entries) {
+      const feed = document.getElementById('feed');
+      if (!entries.length) {
+        feed.innerHTML = '<div class="empty">Nothing yet. Come back when the ink is dry.</div>';
+        return;
+      }
+      feed.innerHTML = entries.map(e => `
+        <article class="entry" onclick="showEntry('${e.slug}')">
+          <div class="entry-date">${formatDate(e.date)}</div>
+          <h2 class="entry-title">${e.title}</h2>
+          <p class="entry-body">${e.body.replace(/<[^>]+>/g, '').slice(0, 300)}</p>
+          <div class="entry-footer">
+            <a class="read-more" href="#${e.slug}" onclick="event.stopPropagation();showEntry('${e.slug}')">Read →</a>
+            <button class="share-btn" onclick="event.stopPropagation();shareBySlug('${e.slug}')">share</button>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function showEntry(slug) {
+      const e = allEntries.find(e => e.slug === slug);
+      if (!e) return;
+      currentSlug = slug;
+      document.getElementById('singleDate').textContent = formatDate(e.date);
+      document.getElementById('singleTitle').textContent = e.title;
+      document.getElementById('singleBody').innerHTML =
+        e.body.split(/\n\n+/).map(p => `<p>${p.replace(/\n/g,'<br>')}</p>`).join('');
+      document.getElementById('feedView').classList.add('hidden');
+      document.getElementById('singleView').classList.add('active');
+      window.history.pushState({}, '', `#${slug}`);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showFeed() {
+      document.getElementById('feedView').classList.remove('hidden');
+      document.getElementById('singleView').classList.remove('active');
+      window.history.pushState({}, '', window.location.pathname);
+      currentSlug = null;
+    }
+
+    function shareEntry() { shareBySlug(currentSlug); }
+
+    function shareBySlug(slug) {
+      const url = `${location.origin}${location.pathname}#${slug}`;
+      if (navigator.share) {
+        navigator.share({ title: 'forbiddn', url });
+      } else {
+        navigator.clipboard.writeText(url).then(() => showToast('Link copied.'));
+      }
+    }
+
+    function handleEmail(e) {
+      e.preventDefault();
+      showToast("you're in the diary now.");
+      e.target.reset();
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    window.addEventListener('popstate', () => { if (!location.hash) showFeed(); });
+
+    loadEntries().then(() => {
+      const hash = location.hash.replace('#', '');
+      if (hash) { const e = allEntries.find(e => e.slug === hash); if (e) showEntry(hash); }
+    });
+  </script>
+</body>
+</html>
