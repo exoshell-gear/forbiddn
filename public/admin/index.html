@@ -10,17 +10,20 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bone: #E8E0D0;
-      --bone-dim: #9E9488;
-      --bone-faint: #3A3530;
-      --ink: #0D0B09;
-      --ink-mid: #1A1713;
-      --red: #7A1F1F;
+      --green: #22ff88;
+      --green-dim: rgba(34, 255, 136, 0.45);
+      --green-faint: rgba(34, 255, 136, 0.08);
+      --green-line: rgba(34, 255, 136, 0.18);
+      --white: #F0EEE9;
+      --white-dim: rgba(240, 238, 233, 0.55);
+      --white-faint: rgba(240, 238, 233, 0.15);
+      --ink: #080C09;
+      --ink-mid: #0E1410;
     }
 
     body {
       background: var(--ink);
-      color: var(--bone);
+      color: var(--white);
       font-family: 'Crimson Text', serif;
       min-height: 100vh;
       display: flex;
@@ -33,7 +36,7 @@
       content: '';
       display: block;
       height: 2px;
-      background: var(--red);
+      background: var(--green);
       width: 100%;
       position: fixed;
       top: 0; left: 0;
@@ -42,78 +45,97 @@
 
     .box {
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
       text-align: center;
     }
 
     .mask {
-      font-size: 2.4rem;
+      font-size: 2.2rem;
       display: block;
-      margin-bottom: 28px;
-      opacity: 0.85;
+      margin-bottom: 32px;
     }
 
     .headline {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(1.1rem, 3vw, 1.4rem);
+      font-size: clamp(1.1rem, 3vw, 1.35rem);
       font-weight: 400;
       font-style: italic;
-      color: var(--bone);
-      line-height: 1.5;
-      margin-bottom: 10px;
+      color: var(--white);
+      line-height: 1.55;
+      margin-bottom: 8px;
     }
 
     .subheadline {
       font-family: 'Crimson Text', serif;
       font-style: italic;
       font-size: 0.95rem;
-      color: var(--bone-faint);
-      margin-bottom: 40px;
-      line-height: 1.6;
+      color: var(--white-faint);
+      margin-bottom: 44px;
+    }
+
+    .input-wrap {
+      position: relative;
+      margin-bottom: 12px;
     }
 
     .field {
       width: 100%;
       background: var(--ink-mid);
-      border: 1px solid var(--bone-faint);
-      color: var(--bone);
+      border: 1px solid rgba(240, 238, 233, 0.08);
+      color: var(--white);
       font-family: 'Crimson Text', serif;
       font-size: 1rem;
-      padding: 14px 16px;
+      padding: 14px 44px 14px 16px;
       outline: none;
-      margin-bottom: 12px;
       text-align: center;
       letter-spacing: 0.08em;
       transition: border-color 0.2s;
     }
 
-    .field:focus { border-color: var(--bone-faint); }
-    .field::placeholder { color: var(--bone-faint); font-style: italic; }
+    .field:focus { border-color: var(--white-faint); }
+    .field::placeholder { color: var(--white-faint); font-style: italic; }
+
+    .toggle-pw {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--white-faint);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0;
+      transition: color 0.2s, opacity 0.2s;
+      line-height: 1;
+    }
+
+    .toggle-pw:hover { color: var(--white-dim); }
+    .toggle-pw.active { color: var(--green); opacity: 1; }
 
     .submit {
       width: 100%;
       background: transparent;
-      border: 1px solid var(--bone-faint);
-      color: var(--bone-faint);
+      border: 1px solid var(--green-line);
+      color: var(--green-dim);
       font-family: 'Playfair Display', serif;
       font-size: 0.75rem;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       padding: 14px;
       cursor: pointer;
       transition: all 0.2s;
-      margin-bottom: 28px;
+      margin-bottom: 32px;
     }
 
-    .submit:hover { border-color: var(--bone-dim); color: var(--bone-dim); }
+    .submit:hover { background: var(--green); border-color: var(--green); color: var(--ink); }
 
     .response {
       font-family: 'Playfair Display', serif;
       font-style: italic;
       font-size: 1rem;
-      color: var(--bone-dim);
+      color: var(--green-dim);
       min-height: 28px;
-      transition: opacity 0.3s;
       line-height: 1.5;
     }
 
@@ -128,16 +150,16 @@
 
     .back {
       display: inline-block;
-      margin-top: 48px;
+      margin-top: 52px;
       font-family: 'Crimson Text', serif;
       font-style: italic;
       font-size: 0.85rem;
-      color: var(--bone-faint);
+      color: var(--white-faint);
       text-decoration: none;
       transition: color 0.2s;
     }
 
-    .back:hover { color: var(--bone-dim); }
+    .back:hover { color: var(--green-dim); }
   </style>
 </head>
 <body>
@@ -146,14 +168,18 @@
     <p class="headline">honestly? if you can get in you probably deserve it.</p>
     <p class="subheadline">i won't even be mad.</p>
 
-    <input
-      class="field"
-      type="password"
-      id="passwordField"
-      placeholder="give it your best shot"
-      onkeydown="if(event.key==='Enter') attempt()"
-      autocomplete="off"
-    />
+    <div class="input-wrap">
+      <input
+        class="field"
+        type="password"
+        id="passwordField"
+        placeholder="give it your best shot"
+        onkeydown="if(event.key==='Enter') attempt()"
+        autocomplete="off"
+      />
+      <button class="toggle-pw" onclick="togglePw()" id="toggleBtn" title="Show password">👁</button>
+    </div>
+
     <button class="submit" onclick="attempt()">Enter</button>
 
     <div class="response" id="response"></div>
@@ -181,6 +207,7 @@
       "Who do you hate the most?",
       "incorrect password. fuck off.",
       "Come on in! SYKE! Stay the fuck out. 😈",
+      "what exactly are you hoping to find?",
     ];
 
     let lastIndex = -1;
@@ -190,7 +217,6 @@
       field.value = '';
       field.blur();
 
-      // Pick a response, avoid repeating the last one
       let idx;
       do { idx = Math.floor(Math.random() * responses.length); }
       while (idx === lastIndex && responses.length > 1);
@@ -198,11 +224,24 @@
 
       const el = document.getElementById('response');
       el.classList.remove('flash');
-      void el.offsetWidth; // reflow to restart animation
+      void el.offsetWidth;
       el.textContent = responses[idx];
       el.classList.add('flash');
 
       setTimeout(() => field.focus(), 100);
+    }
+
+    function togglePw() {
+      const field = document.getElementById('passwordField');
+      const btn = document.getElementById('toggleBtn');
+      if (field.type === 'password') {
+        field.type = 'text';
+        btn.classList.add('active');
+      } else {
+        field.type = 'password';
+        btn.classList.remove('active');
+      }
+      field.focus();
     }
 
     document.getElementById('passwordField').focus();
