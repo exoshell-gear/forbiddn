@@ -3,11 +3,11 @@ const path = require('path');
 
 exports.handler = async () => {
   try {
-    const postsDir = path.join(__dirname, '../../posts');
+    const postsDir = path.join(process.cwd(), 'posts');
     const files = fs.readdirSync(postsDir)
       .filter(f => f.endsWith('.md'))
       .sort()
-      .reverse(); // newest first
+      .reverse();
 
     const posts = files.map(filename => {
       const content = fs.readFileSync(path.join(postsDir, filename), 'utf8');
