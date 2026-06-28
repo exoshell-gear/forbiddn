@@ -1,18 +1,32 @@
-const fs = require('fs');
-const path = require('path');
-
 exports.handler = async () => {
-  try {
-    const postsDir = path.join(process.cwd(), 'posts');
-    const files = fs.readdirSync(postsDir)
-      .filter(f => f.endsWith('.md'))
-      .sort()
-      .reverse();
+  const token  = process.env.GITHUB_TOKEN;
+  const owner  = process.env.GITHUB_OWNER;
+  const repo   = process.env.GITHUB_REPO;
+  const branch = process.env.GITHUB_BRANCH || 'main';
 
-    const posts = files.map(filename => {
-      const content = fs.readFileSync(path.join(postsDir, filename), 'utf8');
-      return { slug: filename.replace('.md', ''), content };
-    });
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+    'Accept': 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28'
+  };
+
+  try {
+    const listRes = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/contents/posts?ref=${branch}`,
+      { headers }
+    );
+    if (!listRes.ok) throw new Error(`GitHub list failed: ${listRes.status}`);
+    const files = await listRes.json();
+
+    const mdFiles = files
+      .filter(f => f.name.endsWith('.md'))
+      .sort((a, b) => b.name.localeCompare(a.name));
+
+    const posts = await Promise.all(mdFiles.map(async file => {
+      const raw = await fetch(file.download_url, { headers });
+      const content = await raw.text();
+      return { slug: file.name.replace('.md', ''), content };
+    }));
 
     return {
       statusCode: 200,
