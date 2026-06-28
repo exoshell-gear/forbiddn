@@ -15,19 +15,23 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bone: #E8E0D0;
-      --bone-dim: #9E9488;
-      --bone-faint: #3A3530;
-      --ink: #0D0B09;
-      --ink-mid: #1A1713;
-      --red: #7A1F1F;
+      --green: #22ff88;
+      --green-dim: rgba(34, 255, 136, 0.45);
+      --green-faint: rgba(34, 255, 136, 0.12);
+      --green-line: rgba(34, 255, 136, 0.18);
+      --white: #F0EEE9;
+      --white-dim: rgba(240, 238, 233, 0.55);
+      --white-faint: rgba(240, 238, 233, 0.15);
+      --ink: #080C09;
+      --ink-mid: #0E1410;
+      --ink-card: #111710;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
       background-color: var(--ink);
-      color: var(--bone);
+      color: var(--white);
       font-family: 'Crimson Text', Georgia, serif;
       font-size: 18px;
       line-height: 1.7;
@@ -38,108 +42,69 @@
       content: '';
       display: block;
       height: 2px;
-      background: var(--red);
+      background: var(--green);
       width: 100%;
       position: fixed;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       z-index: 100;
     }
 
     /* ── HEADER ── */
     header {
-      padding: 80px 24px 60px;
+      padding: 80px 24px 64px;
       text-align: center;
-      border-bottom: 1px solid var(--bone-faint);
+      border-bottom: 1px solid var(--green-line);
+      position: relative;
+    }
+
+    .site-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 28px;
+      display: block;
     }
 
     .mask {
-      font-size: 2.4rem;
+      font-size: 2rem;
       display: block;
-      margin-bottom: 24px;
-      opacity: 0.85;
+      margin-bottom: 20px;
     }
 
     h1 {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-size: clamp(2.6rem, 7vw, 5rem);
       font-weight: 400;
-      letter-spacing: 0.02em;
-      line-height: 1.15;
-      color: var(--bone);
-      margin-bottom: 16px;
+      font-style: italic;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+      color: var(--white);
+      margin-bottom: 20px;
     }
 
     .subtext {
       font-family: 'Crimson Text', serif;
       font-style: italic;
-      font-size: clamp(1rem, 2.5vw, 1.2rem);
-      color: var(--bone-dim);
-      letter-spacing: 0.04em;
-      margin-bottom: 8px;
-    }
-
-    .tagline {
-      font-family: 'Playfair Display', serif;
-      font-size: 0.78rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--bone-faint);
+      font-size: clamp(1rem, 2.2vw, 1.15rem);
+      color: var(--white-dim);
+      letter-spacing: 0.03em;
       margin-bottom: 40px;
     }
-
-    /* Kit email form — replace with your embed */
-    .email-form {
-      display: flex;
-      gap: 0;
-      max-width: 400px;
-      margin: 0 auto 20px;
-      border: 1px solid var(--bone-faint);
-    }
-
-    .email-form input {
-      flex: 1;
-      background: transparent;
-      border: none;
-      color: var(--bone);
-      font-family: 'Crimson Text', serif;
-      font-size: 1rem;
-      padding: 12px 16px;
-      outline: none;
-      min-width: 0;
-    }
-
-    .email-form input::placeholder { color: var(--bone-faint); }
-
-    .email-form button {
-      background: var(--bone-faint);
-      border: none;
-      color: var(--bone-dim);
-      font-family: 'Playfair Display', serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 12px 20px;
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s;
-      white-space: nowrap;
-    }
-
-    .email-form button:hover { background: var(--bone-dim); color: var(--ink); }
 
     .admin-link {
       display: inline-block;
       font-family: 'Crimson Text', serif;
       font-style: italic;
-      font-size: 0.82rem;
-      color: var(--bone-faint);
+      font-size: 0.85rem;
+      color: var(--white-faint);
       text-decoration: none;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.04em;
       transition: color 0.2s;
-      margin-top: 4px;
     }
 
-    .admin-link:hover { color: var(--bone-dim); }
+    .admin-link:hover { color: var(--green-dim); }
 
     /* ── FEED ── */
     main {
@@ -150,7 +115,7 @@
 
     .feed {
       columns: 2;
-      column-gap: 32px;
+      column-gap: 28px;
     }
 
     @media (max-width: 700px) {
@@ -159,41 +124,45 @@
 
     .entry {
       break-inside: avoid;
-      margin-bottom: 32px;
-      border: 1px solid var(--bone-faint);
-      padding: 32px 28px 28px;
-      background: var(--ink-mid);
-      transition: border-color 0.2s;
+      margin-bottom: 28px;
+      border: 1px solid var(--green-line);
+      padding: 28px 26px 22px;
+      background: var(--ink-card);
+      transition: border-color 0.2s, background 0.2s;
       cursor: pointer;
     }
 
-    .entry:hover { border-color: var(--bone-dim); }
+    .entry:hover {
+      border-color: var(--green-dim);
+      background: var(--ink-mid);
+    }
 
     .entry-date {
       font-family: 'Playfair Display', serif;
-      font-size: 0.72rem;
-      letter-spacing: 0.16em;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--bone-faint);
-      margin-bottom: 14px;
+      color: var(--green);
+      opacity: 0.6;
+      margin-bottom: 12px;
     }
 
     .entry-title {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(1.15rem, 2.5vw, 1.45rem);
+      font-size: clamp(1.1rem, 2.2vw, 1.4rem);
       font-weight: 500;
       line-height: 1.3;
-      color: var(--bone);
-      margin-bottom: 14px;
+      color: var(--white);
+      margin-bottom: 12px;
     }
 
     .entry-body {
       font-family: 'Crimson Text', serif;
       font-size: 1rem;
-      color: var(--bone-dim);
+      color: var(--white-dim);
       line-height: 1.75;
       display: -webkit-box;
-      -webkit-line-clamp: 6;
+      -webkit-line-clamp: 5;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
@@ -202,41 +171,42 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: 20px;
-      padding-top: 16px;
-      border-top: 1px solid var(--bone-faint);
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--green-line);
     }
 
     .read-more {
       font-family: 'Playfair Display', serif;
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--bone-faint);
+      color: var(--green);
+      opacity: 0.7;
       text-decoration: none;
-      transition: color 0.2s;
+      transition: opacity 0.2s;
     }
 
-    .read-more:hover { color: var(--bone-dim); }
+    .read-more:hover { opacity: 1; }
 
     .share-btn {
       background: none;
       border: none;
-      color: var(--bone-faint);
+      color: var(--white-faint);
       cursor: pointer;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Crimson Text', serif;
       font-style: italic;
       transition: color 0.2s;
       padding: 0;
     }
 
-    .share-btn:hover { color: var(--bone-dim); }
+    .share-btn:hover { color: var(--green-dim); }
 
     /* ── SINGLE ENTRY ── */
     .single-view {
       display: none;
-      max-width: 680px;
+      max-width: 660px;
       margin: 0 auto;
       padding: 60px 0 100px;
     }
@@ -247,52 +217,72 @@
     .back-btn {
       background: none;
       border: none;
-      color: var(--bone-faint);
+      color: var(--white-faint);
       cursor: pointer;
       font-family: 'Crimson Text', serif;
       font-style: italic;
       font-size: 1rem;
       padding: 0;
-      margin-bottom: 48px;
+      margin-bottom: 52px;
       transition: color 0.2s;
+      display: block;
     }
 
-    .back-btn:hover { color: var(--bone-dim); }
+    .back-btn:hover { color: var(--green-dim); }
 
     .single-date {
       font-family: 'Playfair Display', serif;
-      font-size: 0.72rem;
-      letter-spacing: 0.18em;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--bone-faint);
-      margin-bottom: 20px;
+      color: var(--green);
+      opacity: 0.6;
+      margin-bottom: 18px;
     }
 
     .single-title {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-size: clamp(1.9rem, 4.5vw, 3rem);
       font-weight: 400;
-      line-height: 1.2;
-      color: var(--bone);
-      margin-bottom: 40px;
+      line-height: 1.15;
+      color: var(--white);
+      margin-bottom: 44px;
       font-style: italic;
     }
 
     .single-body {
       font-family: 'Crimson Text', serif;
-      font-size: 1.15rem;
-      line-height: 1.85;
-      color: var(--bone-dim);
+      font-size: 1.18rem;
+      line-height: 1.88;
+      color: var(--white-dim);
     }
 
-    .single-body p { margin-bottom: 1.4em; }
+    .single-body p { margin-bottom: 1.5em; }
 
     .single-footer {
-      margin-top: 48px;
+      margin-top: 52px;
       padding-top: 24px;
-      border-top: 1px solid var(--bone-faint);
+      border-top: 1px solid var(--green-line);
       display: flex;
       justify-content: flex-end;
+    }
+
+    .share-btn-large {
+      background: none;
+      border: 1px solid var(--green-line);
+      color: var(--white-faint);
+      cursor: pointer;
+      font-size: 0.78rem;
+      font-family: 'Playfair Display', serif;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: all 0.2s;
+      padding: 10px 20px;
+    }
+
+    .share-btn-large:hover {
+      border-color: var(--green-dim);
+      color: var(--green);
     }
 
     /* ── STATES ── */
@@ -301,9 +291,8 @@
       padding: 80px 24px;
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      color: var(--bone-faint);
+      color: var(--white-faint);
       font-size: 1.1rem;
-      grid-column: 1 / -1;
     }
 
     /* ── TOAST ── */
@@ -312,12 +301,13 @@
       bottom: 32px;
       left: 50%;
       transform: translateX(-50%) translateY(20px);
-      background: var(--bone-faint);
-      color: var(--bone-dim);
+      background: var(--green-faint);
+      border: 1px solid var(--green-line);
+      color: var(--green);
       font-family: 'Crimson Text', serif;
       font-style: italic;
       font-size: 0.95rem;
-      padding: 10px 20px;
+      padding: 10px 22px;
       opacity: 0;
       transition: opacity 0.3s, transform 0.3s;
       pointer-events: none;
@@ -329,11 +319,11 @@
     footer {
       text-align: center;
       padding: 40px 24px;
-      border-top: 1px solid var(--bone-faint);
+      border-top: 1px solid var(--green-line);
       font-family: 'Crimson Text', serif;
       font-style: italic;
-      font-size: 0.9rem;
-      color: var(--bone-faint);
+      font-size: 0.88rem;
+      color: var(--white-faint);
     }
   </style>
 </head>
@@ -341,16 +331,9 @@
 
   <header>
     <span class="mask">🎭</span>
-    <h1>forbiddn</h1>
-    <p class="subtext">Secrets, confessions, and dark fantasies.</p>
-    <p class="tagline">You figure out which is which.</p>
-
-    <!-- Replace with your Kit embed -->
-    <form class="email-form" onsubmit="handleEmail(event)">
-      <input type="email" placeholder="your@email.com" required />
-      <button type="submit">Follow</button>
-    </form>
-
+    <span class="site-name">The Forbidden Diary</span>
+    <h1>Secrets, confessions,<br>and dark fantasies.</h1>
+    <p class="subtext">You figure out which is which.</p>
     <a class="admin-link" href="/admin">are you the author?</a>
   </header>
 
@@ -367,7 +350,7 @@
       <h2 class="single-title" id="singleTitle"></h2>
       <div class="single-body" id="singleBody"></div>
       <div class="single-footer">
-        <button class="share-btn" onclick="shareEntry()">share this entry</button>
+        <button class="share-btn-large" onclick="shareEntry()">Copy link</button>
       </div>
     </div>
   </main>
@@ -385,11 +368,9 @@
         const res = await fetch('/api/posts');
         if (!res.ok) throw new Error();
         const posts = await res.json();
-
         allEntries = posts
           .map(p => parseEntry(p.slug, p.content))
           .sort((a, b) => b.date.localeCompare(a.date));
-
         renderFeed(allEntries);
       } catch {
         document.getElementById('feed').innerHTML =
@@ -432,7 +413,7 @@
           <p class="entry-body">${e.body.replace(/<[^>]+>/g, '').slice(0, 300)}</p>
           <div class="entry-footer">
             <a class="read-more" href="#${e.slug}" onclick="event.stopPropagation();showEntry('${e.slug}')">Read →</a>
-            <button class="share-btn" onclick="event.stopPropagation();shareBySlug('${e.slug}')">share</button>
+            <button class="share-btn" onclick="event.stopPropagation();shareBySlug('${e.slug}')">copy link</button>
           </div>
         </article>
       `).join('');
@@ -463,17 +444,7 @@
 
     function shareBySlug(slug) {
       const url = `${location.origin}${location.pathname}#${slug}`;
-      if (navigator.share) {
-        navigator.share({ title: 'forbiddn', url });
-      } else {
-        navigator.clipboard.writeText(url).then(() => showToast('Link copied.'));
-      }
-    }
-
-    function handleEmail(e) {
-      e.preventDefault();
-      showToast("you're in the diary now.");
-      e.target.reset();
+      navigator.clipboard.writeText(url).then(() => showToast('link copied.'));
     }
 
     function showToast(msg) {
