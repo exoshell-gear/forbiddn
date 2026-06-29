@@ -38,7 +38,6 @@
       min-height: 100vh;
     }
 
-    /* ── TOP GREEN LINE ── */
     body::before {
       content: '';
       display: block;
@@ -50,7 +49,6 @@
       z-index: 200;
     }
 
-    /* ── NAV ── */
     nav {
       position: fixed;
       top: 2px;
@@ -96,7 +94,6 @@
 
     .nav-link:hover { color: var(--green-dim); }
 
-    /* ── HEADER ── */
     header {
       padding: 100px 24px 48px;
       text-align: center;
@@ -146,7 +143,6 @@
 
     .subtext.visible { opacity: 1; }
 
-    /* ── FEED ── */
     main {
       max-width: 1200px;
       margin: 0 auto;
@@ -252,7 +248,6 @@
 
     .card-btn:hover { color: var(--green-dim); }
 
-    /* ── SINGLE ENTRY ── */
     .single-view {
       display: none;
       max-width: 660px;
@@ -338,7 +333,6 @@
       color: var(--green);
     }
 
-    /* ── STATES ── */
     .loading, .empty {
       text-align: center;
       padding: 80px 24px;
@@ -348,7 +342,6 @@
       font-size: 1.1rem;
     }
 
-    /* ── TOAST ── */
     .toast {
       position: fixed;
       bottom: 32px;
@@ -383,7 +376,6 @@
 </head>
 <body>
 
-  <!-- NAV -->
   <nav>
     <a class="nav-logo" href="/">forbiddn</a>
     <div class="nav-links">
@@ -394,12 +386,9 @@
     </div>
   </nav>
 
-  <!-- HEADER -->
   <header>
     <span class="site-name">The Forbidden Diary</span>
-
     <img class="mask-icon" src="/icons/mask.svg" alt="mask" />
-
     <h1 id="heroText"></h1>
     <p class="subtext" id="subtext">You figure out which is which.</p>
   </header>
@@ -423,15 +412,14 @@
     </div>
   </main>
 
-  <footer>The author remains unknown.</footer>
+  <footer>The author remains unknown. · <a href="https://thenounproject.com/browse/icons/term/mask/" target="_blank" style="color:inherit;text-decoration:none;">Mask icon</a> by Muhammad Nur Auliady Pamungkas / Noun Project</footer>
   <div class="toast" id="toast"></div>
 
   <audio id="soundtrack" loop>
-    <!-- Add your audio source here: <source src="/audio/soundtrack.mp3" type="audio/mpeg"> -->
+    <!-- <source src="/audio/soundtrack.mp3" type="audio/mpeg"> -->
   </audio>
 
   <script>
-    // ── CONFIG — update when you have your email ──
     const CONTACT_EMAIL = 'author@forbiddn.xyz';
 
     let allEntries = [];
@@ -439,7 +427,6 @@
     let soundOn = false;
 
     // ── HERO TYPEWRITER ──
-    const heroLines = ['Secrets, confessions,\nand dark fantasies.'];
     const heroEl = document.getElementById('heroText');
     const subtextEl = document.getElementById('subtext');
 
@@ -448,23 +435,17 @@
       el.innerHTML = '';
       function tick() {
         if (i < text.length) {
-          if (text[i] === '\n') {
-            el.innerHTML += '<br>';
-          } else {
-            el.innerHTML += text[i];
-          }
+          el.innerHTML += text[i] === '\n' ? '<br>' : text[i];
           i++;
           setTimeout(tick, speed);
-        } else {
-          if (onDone) onDone();
-        }
+        } else if (onDone) onDone();
       }
       tick();
     }
 
     window.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
-        typeWriter(heroLines[0], heroEl, 38, () => {
+        typeWriter('Secrets, confessions,\nand dark fantasies.', heroEl, 38, () => {
           setTimeout(() => subtextEl.classList.add('visible'), 300);
         });
       }, 400);
@@ -488,9 +469,20 @@
     // ── LOAD ENTRIES ──
     async function loadEntries() {
       try {
-        const res = await fetch('/api/posts');
+        const res = await fetch('https://api.github.com/repos/exoshell-gear/forbiddn/contents/posts?ref=main');
         if (!res.ok) throw new Error();
-        const posts = await res.json();
+        const files = await res.json();
+
+        const mdFiles = files
+          .filter(f => f.name.endsWith('.md'))
+          .sort((a, b) => b.name.localeCompare(a.name));
+
+        const posts = await Promise.all(mdFiles.map(async f => {
+          const raw = await fetch(f.download_url);
+          const content = await raw.text();
+          return { slug: f.name.replace('.md', ''), content };
+        }));
+
         allEntries = posts
           .map(p => parseEntry(p.slug, p.content))
           .sort((a, b) => b.date.localeCompare(a.date));
@@ -545,7 +537,6 @@
       `).join('');
     }
 
-    // ── SINGLE ENTRY ──
     function showEntry(slug) {
       const e = allEntries.find(e => e.slug === slug);
       if (!e) return;
@@ -554,12 +545,9 @@
       document.getElementById('singleTitle').textContent = e.title;
       document.getElementById('singleBody').innerHTML =
         e.body.split(/\n\n+/).map(p => `<p>${p.replace(/\n/g,'<br>')}</p>`).join('');
-
-      // Set whisper mailto
       const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(e.title)}`;
       document.getElementById('whisperBtn').href = mailto;
       document.getElementById('contactNav').href = `mailto:${CONTACT_EMAIL}`;
-
       document.getElementById('feedView').classList.add('hidden');
       document.getElementById('singleView').classList.add('active');
       window.history.pushState({}, '', `#${slug}`);
@@ -573,13 +561,10 @@
       currentSlug = null;
     }
 
-    // ── WHISPER ──
     function whisperAbout(slug, title) {
-      const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(title)}`;
-      window.location.href = mailto;
+      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(title)}`;
     }
 
-    // ── SHARE ──
     function shareEntry() { shareBySlug(currentSlug); }
 
     function shareBySlug(slug) {
@@ -589,7 +574,6 @@
       navigator.clipboard.writeText(url).then(() => showToast('link copied.'));
     }
 
-    // ── TOAST ──
     function showToast(msg) {
       const t = document.getElementById('toast');
       t.textContent = msg;
