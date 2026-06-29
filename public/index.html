@@ -21,7 +21,7 @@
       --green-line: rgba(34, 255, 136, 0.18);
       --white: #F0EEE9;
       --white-dim: rgba(240, 238, 233, 0.55);
-      --white-faint: rgba(240, 238, 233, 0.15);
+      --white-faint: rgba(240, 238, 233, 0.25);
       --ink: #080C09;
       --ink-mid: #0E1410;
       --ink-card: #111710;
@@ -38,6 +38,7 @@
       min-height: 100vh;
     }
 
+    /* ── TOP GREEN LINE ── */
     body::before {
       content: '';
       display: block;
@@ -46,71 +47,110 @@
       width: 100%;
       position: fixed;
       top: 0; left: 0;
+      z-index: 200;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 2px;
+      left: 0; right: 0;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      background: var(--ink);
+      border-bottom: 1px solid rgba(34, 255, 136, 0.08);
       z-index: 100;
     }
 
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--green);
+      text-decoration: none;
+      opacity: 0.8;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-link {
+      font-family: 'Crimson Text', serif;
+      font-style: italic;
+      font-size: 0.88rem;
+      color: var(--white-faint);
+      text-decoration: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.2s;
+    }
+
+    .nav-link:hover { color: var(--green-dim); }
+
     /* ── HEADER ── */
     header {
-      padding: 80px 24px 64px;
+      padding: 100px 24px 48px;
       text-align: center;
       border-bottom: 1px solid var(--green-line);
-      position: relative;
     }
 
     .site-name {
       font-family: 'Playfair Display', serif;
-      font-size: 0.78rem;
+      font-size: 0.72rem;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--green);
-      margin-bottom: 28px;
+      opacity: 0.7;
+      margin-bottom: 20px;
       display: block;
     }
 
-    .mask {
-      font-size: 2rem;
+    .mask-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 20px;
       display: block;
-      margin-bottom: 20px;
+      opacity: 0.9;
     }
 
     h1 {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: clamp(2.6rem, 7vw, 5rem);
+      font-size: clamp(2.2rem, 6vw, 4.4rem);
       font-weight: 400;
       font-style: italic;
       letter-spacing: -0.01em;
       line-height: 1.1;
       color: var(--white);
-      margin-bottom: 20px;
+      margin-bottom: 16px;
+      min-height: 2.5em;
     }
 
     .subtext {
       font-family: 'Crimson Text', serif;
       font-style: italic;
-      font-size: clamp(1rem, 2.2vw, 1.15rem);
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
       color: var(--white-dim);
       letter-spacing: 0.03em;
-      margin-bottom: 40px;
+      opacity: 0;
+      transition: opacity 0.6s ease;
     }
 
-    .admin-link {
-      display: inline-block;
-      font-family: 'Crimson Text', serif;
-      font-style: italic;
-      font-size: 0.85rem;
-      color: var(--white-faint);
-      text-decoration: none;
-      letter-spacing: 0.04em;
-      transition: color 0.2s;
-    }
-
-    .admin-link:hover { color: var(--green-dim); }
+    .subtext.visible { opacity: 1; }
 
     /* ── FEED ── */
     main {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 60px 24px 100px;
+      padding: 52px 24px 100px;
     }
 
     .feed {
@@ -174,6 +214,7 @@
       margin-top: 18px;
       padding-top: 14px;
       border-top: 1px solid var(--green-line);
+      gap: 8px;
     }
 
     .read-more {
@@ -182,26 +223,34 @@
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--green);
-      opacity: 0.7;
+      opacity: 0.8;
       text-decoration: none;
       transition: opacity 0.2s;
+      white-space: nowrap;
     }
 
     .read-more:hover { opacity: 1; }
 
-    .share-btn {
+    .entry-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .card-btn {
       background: none;
       border: none;
-      color: var(--white-faint);
       cursor: pointer;
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       font-family: 'Crimson Text', serif;
       font-style: italic;
       transition: color 0.2s;
       padding: 0;
+      color: var(--white-faint);
+      white-space: nowrap;
     }
 
-    .share-btn:hover { color: var(--green-dim); }
+    .card-btn:hover { color: var(--green-dim); }
 
     /* ── SINGLE ENTRY ── */
     .single-view {
@@ -265,22 +314,26 @@
       border-top: 1px solid var(--green-line);
       display: flex;
       justify-content: flex-end;
+      gap: 12px;
     }
 
-    .share-btn-large {
+    .action-btn {
       background: none;
-      border: 1px solid var(--green-line);
+      border: 1px solid var(--white-faint);
       color: var(--white-faint);
       cursor: pointer;
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       font-family: 'Playfair Display', serif;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       transition: all 0.2s;
       padding: 10px 20px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
     }
 
-    .share-btn-large:hover {
+    .action-btn:hover {
       border-color: var(--green-dim);
       color: var(--green);
     }
@@ -312,6 +365,7 @@
       transition: opacity 0.3s, transform 0.3s;
       pointer-events: none;
       white-space: nowrap;
+      z-index: 999;
     }
 
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -329,12 +383,25 @@
 </head>
 <body>
 
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="/">forbiddn</a>
+    <div class="nav-links">
+      <button class="nav-link" onclick="shareBySlug(currentSlug || '')">share</button>
+      <a class="nav-link" id="contactNav" href="#">whisper</a>
+      <button class="nav-link" id="soundToggle" onclick="toggleSound()">sound off</button>
+      <a class="nav-link" href="/admin">enter</a>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
   <header>
-    <span class="mask">🎭</span>
     <span class="site-name">The Forbidden Diary</span>
-    <h1>Secrets, confessions,<br>and dark fantasies.</h1>
-    <p class="subtext">You figure out which is which.</p>
-    <a class="admin-link" href="/admin">are you the author?</a>
+
+    <img class="mask-icon" src="/icons/mask.svg" alt="mask" />
+
+    <h1 id="heroText"></h1>
+    <p class="subtext" id="subtext">You figure out which is which.</p>
   </header>
 
   <main>
@@ -350,19 +417,75 @@
       <h2 class="single-title" id="singleTitle"></h2>
       <div class="single-body" id="singleBody"></div>
       <div class="single-footer">
-        <button class="share-btn-large" onclick="shareEntry()">Copy link</button>
+        <a class="action-btn" id="whisperBtn" href="#">whisper to me</a>
+        <button class="action-btn" onclick="shareEntry()">copy link</button>
       </div>
     </div>
   </main>
 
   <footer>The author remains unknown.</footer>
-
   <div class="toast" id="toast"></div>
 
+  <audio id="soundtrack" loop>
+    <!-- Add your audio source here: <source src="/audio/soundtrack.mp3" type="audio/mpeg"> -->
+  </audio>
+
   <script>
+    // ── CONFIG — update when you have your email ──
+    const CONTACT_EMAIL = 'author@forbiddn.xyz';
+
     let allEntries = [];
     let currentSlug = null;
+    let soundOn = false;
 
+    // ── HERO TYPEWRITER ──
+    const heroLines = ['Secrets, confessions,\nand dark fantasies.'];
+    const heroEl = document.getElementById('heroText');
+    const subtextEl = document.getElementById('subtext');
+
+    function typeWriter(text, el, speed, onDone) {
+      let i = 0;
+      el.innerHTML = '';
+      function tick() {
+        if (i < text.length) {
+          if (text[i] === '\n') {
+            el.innerHTML += '<br>';
+          } else {
+            el.innerHTML += text[i];
+          }
+          i++;
+          setTimeout(tick, speed);
+        } else {
+          if (onDone) onDone();
+        }
+      }
+      tick();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        typeWriter(heroLines[0], heroEl, 38, () => {
+          setTimeout(() => subtextEl.classList.add('visible'), 300);
+        });
+      }, 400);
+    });
+
+    // ── SOUND ──
+    function toggleSound() {
+      const audio = document.getElementById('soundtrack');
+      const btn = document.getElementById('soundToggle');
+      if (soundOn) {
+        audio.pause();
+        soundOn = false;
+        btn.textContent = 'sound off';
+      } else {
+        audio.play().catch(() => {});
+        soundOn = true;
+        btn.textContent = 'sound on';
+      }
+    }
+
+    // ── LOAD ENTRIES ──
     async function loadEntries() {
       try {
         const res = await fetch('/api/posts');
@@ -413,12 +536,16 @@
           <p class="entry-body">${e.body.replace(/<[^>]+>/g, '').slice(0, 300)}</p>
           <div class="entry-footer">
             <a class="read-more" href="#${e.slug}" onclick="event.stopPropagation();showEntry('${e.slug}')">Read →</a>
-            <button class="share-btn" onclick="event.stopPropagation();shareBySlug('${e.slug}')">copy link</button>
+            <div class="entry-actions">
+              <button class="card-btn" onclick="event.stopPropagation();whisperAbout('${e.slug}', '${e.title.replace(/'/g,"\\'")}')">whisper to me</button>
+              <button class="card-btn" onclick="event.stopPropagation();shareBySlug('${e.slug}')">copy link</button>
+            </div>
           </div>
         </article>
       `).join('');
     }
 
+    // ── SINGLE ENTRY ──
     function showEntry(slug) {
       const e = allEntries.find(e => e.slug === slug);
       if (!e) return;
@@ -427,6 +554,12 @@
       document.getElementById('singleTitle').textContent = e.title;
       document.getElementById('singleBody').innerHTML =
         e.body.split(/\n\n+/).map(p => `<p>${p.replace(/\n/g,'<br>')}</p>`).join('');
+
+      // Set whisper mailto
+      const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(e.title)}`;
+      document.getElementById('whisperBtn').href = mailto;
+      document.getElementById('contactNav').href = `mailto:${CONTACT_EMAIL}`;
+
       document.getElementById('feedView').classList.add('hidden');
       document.getElementById('singleView').classList.add('active');
       window.history.pushState({}, '', `#${slug}`);
@@ -440,13 +573,23 @@
       currentSlug = null;
     }
 
+    // ── WHISPER ──
+    function whisperAbout(slug, title) {
+      const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(title)}`;
+      window.location.href = mailto;
+    }
+
+    // ── SHARE ──
     function shareEntry() { shareBySlug(currentSlug); }
 
     function shareBySlug(slug) {
-      const url = `${location.origin}${location.pathname}#${slug}`;
+      const url = slug
+        ? `${location.origin}${location.pathname}#${slug}`
+        : location.href;
       navigator.clipboard.writeText(url).then(() => showToast('link copied.'));
     }
 
+    // ── TOAST ──
     function showToast(msg) {
       const t = document.getElementById('toast');
       t.textContent = msg;
